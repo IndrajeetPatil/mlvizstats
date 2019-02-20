@@ -1,13 +1,11 @@
 # Book: Introduction to Machine Learning with R:Rigorous Mathematical Analysis
 # Author: Scott V. Burger
 
-#======================================= Chapter 2 ======================================================================
+#======================================= Chapter 2 ===========================
 
 library(tidyverse)
 library(magrittr)
 library(ggplot2)
-
-groupedstats:::set_cwd()
 
 # global datasets to use
 # for reproducibility
@@ -25,7 +23,7 @@ train <- mtcars[train_indices,]
 test <- mtcars[-train_indices,]
 
 
-#==================================================== regression ==========================================================================
+#================================= regression ================================
 
 # page no. 23-24
 lm_rmse <- function(data, x, y, split_size = 0.8) {
@@ -111,7 +109,7 @@ logit_boost <- function(data, x, y, split_size = 0.8) {
 
 #logit_boost(data = mtcars, x = am, y = mpg)
 
-#=========================================== classification  ============================================================
+#========================= classification  =============================
 
 # custom function to get both sum of squares and cluster centres simultaneously
 #' @inheritParams stats::kmeans
@@ -144,7 +142,7 @@ kmeans_broom <- function(x,
           trace = trace
         )
       ) %>%
-        tibble::as_data_frame(x = .)
+        tibble::as_tibble(x = .)
     }
 
   # cluster centres
@@ -165,7 +163,7 @@ kmeans_broom <- function(x,
           trace = trace
         )
       ) %>%
-        tibble::as_data_frame(x = .)
+        tibble::as_tibble(x = .)
     }
 
   # cluster centres
@@ -187,7 +185,7 @@ kmeans_broom <- function(x,
         ),
         x
       ) %>%
-        tibble::as_data_frame(x = .)
+        tibble::as_tibble(x = .)
     }
 
   # running both functions simultaneously
@@ -349,8 +347,8 @@ tidy_pca <- function(data, output = "pca_tidy") {
         sep = ""
       )
     ) %>%
-    tibble::rownames_to_column(df = ., var = "rowid") %>%
-    tibble::as_data_frame(x = .) %>%
+    tibble::rownames_to_column(., var = "rowid") %>%
+    tibble::as_tibble(x = .) %>%
     purrrlyr::by_row(
       .d = .,
       ..f = ~ paste("PC",
@@ -426,7 +424,7 @@ ggkmeansstats <- function(data,
 
   # dataframe on which kmeans is to be carried out
   kmeans_df <- data %>%
-    tibble::as_data_frame(x = .)
+    tibble::as_tibble(x = .)
 
   # standardizing the numeric variables in the dataframe
   if (isTRUE(scale)) {
@@ -604,7 +602,7 @@ ggkmeansstats <- function(data,
     ) %>%
     dplyr::select(.data = ., -total.ss)
 
-  #============================================================== plot ================================================================
+  #============================= plot =======================================
 
   if (dim(dplyr::select_if(.tbl = data, .predicate = purrr::is_bare_numeric))[[2]] == 2L) {
     if (output == "plot") {

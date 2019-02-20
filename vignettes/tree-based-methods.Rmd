@@ -1,0 +1,62 @@
+---
+title: "Tree-based-methods"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Tree-based-methods}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  out.width = "100%"
+)
+```
+
+```{r setup}
+# needed libraries
+library(randomForest)
+library(magrittr)
+```
+
+Deciding on how to split tree 
+
+```{r data}
+Input <- ("
+Week Sky_condition Wind_speed Humidity Result
+1 cloudy low high yes
+2 rainy low normal yes
+3 sunny high normal yes
+4 cloudy high high yes
+5 cloudy low normal yes
+6 rainy high high no
+7 rainy high normal no
+8 cloudy high normal yes
+9 sunny low high no
+10 sunny low normal yes
+11 rainy low normal yes
+12 sunny low high no
+13 sunny high high no
+")
+
+# creating a dataframe
+(cycling <- read.table(textConnection(Input), header = TRUE) %>%
+  tibble::as_tibble(.))
+```
+
+Checking fits
+
+```{r tree_fit, fig.width=5, fig.height=4}
+# fitting model
+fit <- randomForest::randomForest(formula = factor(Result) ~ ., 
+                                  data = cycling[2:5], 
+                                  ntree = 1000)
+
+# summary
+fit
+
+# Sky_condition has the highest gain?
+randomForest::varImpPlot(fit)
+```

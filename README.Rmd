@@ -1,0 +1,22 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# mlvizstats
+
+The goal of `mlvizstats` is to help understand machine learning techniques using
+visualizations.
+
+This project is in its very nascent state so I wouldn't recommend downloading it
+yet.
